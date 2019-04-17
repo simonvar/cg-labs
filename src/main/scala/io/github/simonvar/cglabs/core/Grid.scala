@@ -1,4 +1,4 @@
-package io.github.simonvar.cglabs
+package io.github.simonvar.cglabs.core
 
 import scalafx.scene.canvas.GraphicsContext
 

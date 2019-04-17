@@ -1,11 +1,12 @@
 package io.github.simonvar.cglabs
 
+import io.github.simonvar.cglabs.core.{Grid, Point, Polygon}
 import scalafx.application.JFXApp
 import scalafx.scene.Scene
 import scalafx.scene.canvas.{Canvas, GraphicsContext}
 import scalafx.scene.paint.Color.White
 
-object App extends JFXApp {
+object Theme1 extends JFXApp {
 
   private final val WIDTH = 800
   private final val HEIGHT = 600
@@ -33,10 +34,9 @@ object App extends JFXApp {
 
         drawPolygon(grid, polygon)
 
-        private val xypolygon: Polygon = increase(mirrorXYPolygon(grid, polygon), 2)
+        private val xypolygon: Polygon = mirrorScaleXY(grid, polygon, 1)
 
         drawPolygon(grid, xypolygon)
-
 
       }
     }
@@ -49,9 +49,11 @@ object App extends JFXApp {
   }
 
   private def generatePolygon(): Polygon = new Polygon(
-    new Point(10, 10) ::
-      new Point(60, 30) ::
-      new Point(20, 90) :: Nil
+    new Point(50, 50) ::
+      new Point(100, 100) ::
+      new Point(50, 150) ::
+      new Point(0, 100) ::
+      Nil
   )
 
   private def drawPolygon(grid: Grid, polygon: Polygon): Unit = {
@@ -69,12 +71,36 @@ object App extends JFXApp {
 
   private def mirrorXYPolygon(grid: Grid, p: Polygon) = mirrorXPolygon(grid, mirrorYPolygon(grid, p))
 
+  private def mirrorScaleY(grid: Grid, p: Polygon, scale: Double): Polygon = {
+    val p0 = p.points.minBy(cmp => Math.abs(cmp.x))
+
+    new Polygon(p.points.map(t =>
+      new Point(-p0.x - (t.x - p0.x) * scale, p0.y + (p0.y - t.y) * scale))
+    )
+  }
+
+  private def mirrorScaleX(grid: Grid, p: Polygon, scale: Double): Polygon = {
+    val p0 = p.points.minBy(cmp => Math.abs(cmp.y))
+
+    new Polygon(p.points.map(t =>
+      new Point(p0.x + (t.x - p0.x) * scale, -p0.y - (t.y - p0.y) * scale))
+    )
+  }
+
+  private def mirrorScaleXY(grid: Grid, p: Polygon, scale: Double): Polygon = {
+    val p0 = p.points.minBy(cmp => cmp.y * cmp.y + cmp.x * cmp.x)
+
+    new Polygon(p.points.map(t =>
+      new Point(-p0.x - (t.x - p0.x) * scale, -p0.y - (t.y - p0.y) * scale))
+    )
+  }
+
   private def increase(p: Polygon, scale: Int) = new Polygon(
     p.points.map(t => new Point(t.x * scale, t.y * scale))
   )
 
   private def decrease(p: Polygon, scale: Int) = new Polygon(
-    p.points.map(t => new Point(t.x * scale, t.y / scale))
+    p.points.map(t => new Point(t.x / scale, t.y / scale))
   )
 
 }

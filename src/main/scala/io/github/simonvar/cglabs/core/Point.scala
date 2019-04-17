@@ -1,4 +1,4 @@
-package io.github.simonvar.cglabs
+package io.github.simonvar.cglabs.core
 
 class Point(val x: Double, val y: Double) {
 
