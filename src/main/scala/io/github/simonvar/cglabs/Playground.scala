@@ -1,33 +1,26 @@
 package io.github.simonvar.cglabs
 
-import io.github.simonvar.cglabs.core3d.{Line, Point, Rotatable, Scalable}
-import scalafx.scene.canvas.GraphicsContext
-import scalafx.scene.paint.Color
+import io.github.simonvar.cglabs.core3d.Grid
+import io.github.simonvar.cglabs.core3d.base.{Graphical, Rotatable, Scalable}
 
-class Playground(private val zero: Point, private val context: GraphicsContext) extends Rotatable[Unit]
-  with Scalable[Unit]{
+class Playground(private val grid: Grid) extends Rotatable[Unit] with Scalable[Unit]{
 
-  private val defaultColor = Color.Black
-  private var lines = List[Line]()
+  private var graphicals = List[Graphical]()
 
-  def addLine(l: Line): Unit = lines = l :: lines
+  def addGraphical(l: Graphical): Unit = graphicals = l :: graphicals
 
   def draw(): Unit = {
-    context.clearRect(0, 0, context.canvas.getWidth, context.canvas.getHeight)
-    lines.foreach(drawLine)
+    grid.context.clearRect(0, 0, grid.context.canvas.getWidth, grid.context.canvas.getHeight)
+    graphicals.foreach(l => l.draw(grid))
   }
 
-  def drawLine(line: Line): Unit = {
-    context.setStroke(line.color)
-    context.strokeLine(zero.x + line.a.x, zero.y - line.a.y, zero.x + line.b.x, zero.y - line.b.y)
-    context.setStroke(defaultColor)
+  override def rotateX(alpha: Double): Unit = {
+    graphicals = graphicals.map(l => l.rotateX(alpha))
   }
 
-  override def rotateX(alpha: Double): Unit = lines = lines.map(l => l.rotateX(alpha))
+  override def rotateY(alpha: Double): Unit = graphicals = graphicals.map(l => l.rotateY(alpha))
 
-  override def rotateY(alpha: Double): Unit = lines = lines.map(l => l.rotateY(alpha))
+  override def rotateZ(alpha: Double): Unit = graphicals = graphicals.map(l => l.rotateZ(alpha))
 
-  override def rotateZ(alpha: Double): Unit = lines = lines.map(l => l.rotateZ(alpha))
-
-  override def scale(alpha: Double): Unit = lines = lines.map(l => l.scale(alpha))
+  override def scale(alpha: Double): Unit = graphicals = graphicals.map(l => l.scale(alpha))
 }

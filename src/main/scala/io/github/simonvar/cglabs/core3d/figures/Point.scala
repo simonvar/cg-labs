@@ -1,12 +1,12 @@
-package io.github.simonvar.cglabs.core3d
+package io.github.simonvar.cglabs.core3d.figures
 
-import Math._
+import java.lang.Math._
 
-class Point(val x: Double, val y: Double, val z: Double) extends Rotatable[Point] with Scalable[Point] {
+import io.github.simonvar.cglabs.core3d.Grid
+import io.github.simonvar.cglabs.core3d.base.Graphical
+import scalafx.scene.paint.Color
 
-  def +(p: Point): Point = new Point(x + p.x, y + p.y, z + p.z)
-
-  def *(a: Double) = new Point(x * a, y * a, z * a)
+class Point(val x: Double, val y: Double, val z: Double, val color: Color = Color.Black) extends Graphical {
 
   override def rotateX(alpha: Double): Point =
     new Point(x, y * cos(alpha.toRadians) - z * sin(alpha.toRadians), z * cos(alpha.toRadians) + y * sin(alpha.toRadians))
@@ -19,4 +19,16 @@ class Point(val x: Double, val y: Double, val z: Double) extends Rotatable[Point
 
   override def scale(alpha: Double): Point =
     new Point(x * alpha, y * alpha, z * alpha)
+
+  override def moveX(alpha: Double): Point =
+    new Point(x + alpha, y, z)
+
+  override def moveY(alpha: Double): Point =
+    new Point(x, y + alpha, z)
+
+  override def moveZ(alpha: Double): Point =
+    new Point(x, y, z + alpha)
+
+  override def draw(grid: Grid): Unit = {}
+
 }

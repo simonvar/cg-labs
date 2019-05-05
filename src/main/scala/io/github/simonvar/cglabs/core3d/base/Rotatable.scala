@@ -1,4 +1,4 @@
-package io.github.simonvar.cglabs.core3d
+package io.github.simonvar.cglabs.core3d.base
 
 trait Rotatable[A] {
 

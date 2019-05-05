@@ -1,6 +1,7 @@
 package io.github.simonvar.cglabs
 
-import io.github.simonvar.cglabs.core3d.{Line, Point}
+import io.github.simonvar.cglabs.core3d.Grid
+import io.github.simonvar.cglabs.core3d.figures.{Line, Plane, Point}
 import scalafx.Includes._
 import scalafx.application.JFXApp
 import scalafx.beans.property.BooleanProperty
@@ -63,27 +64,37 @@ object Window extends JFXApp {
         left = panelsPane
         bottom = dragModeCheckbox
         center = new Canvas {
-          height = HEIGHT
-          width = WIDTH
+          val grid = new Grid(WIDTH, HEIGHT, DEPTH, graphicsContext2D, Color.Black)
 
-          playground = new Playground(new Point(WIDTH / 2, HEIGHT / 2, DEPTH / 2), graphicsContext2D)
+          height = grid.height
+          width = grid.width
 
-          playground.addLine(new Line(
+          playground = new Playground(grid)
+
+          playground.addGraphical(new Line(
             new Point(-WIDTH / 2, 0, 0),
             new Point(WIDTH / 2, 0, 0),
             Color.Red
           ))
 
-          playground.addLine(new Line(
+          playground.addGraphical(new Line(
             new Point(0, HEIGHT / 2, 0),
             new Point(0, -HEIGHT / 2, 0),
             Color.Green
           ))
 
-          playground.addLine(new Line(
+          playground.addGraphical(new Line(
             new Point(0, 0, DEPTH / 2),
             new Point(0, 0, -DEPTH / 2),
             Color.Blue
+          ))
+
+          playground.addGraphical(new Plane(
+            new Point(0, 0, 60),
+            new Point(0, 200, 60),
+            new Point(200, 200,60),
+            new Point(200, 0, 60),
+            Color.OrangeRed
           ))
 
           playground.draw()
