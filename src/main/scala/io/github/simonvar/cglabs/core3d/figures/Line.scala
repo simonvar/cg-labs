@@ -1,30 +1,33 @@
 package io.github.simonvar.cglabs.core3d.figures
 
-import io.github.simonvar.cglabs.core3d.Grid
+import io.github.simonvar.cglabs.core3d.Context
 import io.github.simonvar.cglabs.core3d.base.Graphical
 import scalafx.scene.paint.Color
 
-class Line(val a: Point, val b: Point, val color: Color = Color.Black) extends Graphical {
+class Line(override val tag: String, val a: Point, val b: Point, val color: Color = Color.Black) extends Graphical {
 
-  override def draw(grid: Grid): Unit = {
-    grid.context.setStroke(color)
-    grid.context.strokeLine(grid.zero.x + a.x, grid.zero.y - a.y, grid.zero.x + b.x, grid.zero.y - b.y)
-    grid.context.setStroke(grid.defaultColor)
+  override def draw(grid: Context): Unit = {
+    grid.graphics.setStroke(color)
+    grid.graphics.strokeLine(grid.zero.x + a.x, grid.zero.y - a.y, grid.zero.x + b.x, grid.zero.y - b.y)
+    grid.graphics.setStroke(grid.defaultColor)
   }
 
-  def colored(c: Color): Line = new Line(a, b, c)
+  def colored(c: Color): Line = copy(color = c)
 
-  override def rotateX(alpha: Double): Line = new Line(a.rotateX(alpha), b.rotateX(alpha), color)
+  override def rotateX(alpha: Double): Line = copy(a = a.rotateX(alpha), b = b.rotateX(alpha))
 
-  override def rotateY(alpha: Double): Line = new Line(a.rotateY(alpha), b.rotateY(alpha), color)
+  override def rotateY(alpha: Double): Line = copy(a = a.rotateY(alpha), b = b.rotateY(alpha))
 
-  override def rotateZ(alpha: Double): Line = new Line(a.rotateZ(alpha), b.rotateZ(alpha), color)
+  override def rotateZ(alpha: Double): Line = copy(a = a.rotateZ(alpha), b = b.rotateZ(alpha))
 
-  override def scale(alpha: Double): Line = new Line(a.scale(alpha), b.scale(alpha), color)
+  override def scale(alpha: Double): Line = copy(a = a.scale(alpha), b = b.scale(alpha))
 
-  override def moveX(alpha: Double): Line = new Line(a.moveX(alpha), b.moveX(alpha))
+  override def moveX(alpha: Double): Line = copy(a = a.moveX(alpha), b = b.moveX(alpha))
 
-  override def moveY(alpha: Double): Line = new Line(a.moveY(alpha), b.moveY(alpha))
+  override def moveY(alpha: Double): Line = copy(a = a.moveY(alpha), b = b.moveY(alpha))
 
-  override def moveZ(alpha: Double): Line = new Line(a.moveZ(alpha), b.moveZ(alpha))
+  override def moveZ(alpha: Double): Line = copy(a = a.moveZ(alpha), b = b.moveZ(alpha))
+
+  private def copy(tag: String = tag, a: Point = a, b: Point = b, color: Color = color) = new Line(tag, a, b, color)
+
 }
