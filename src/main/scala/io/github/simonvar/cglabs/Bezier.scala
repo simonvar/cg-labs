@@ -4,6 +4,7 @@ import io.github.simonvar.cglabs.core.Point
 
 class Bezier(points: List[Point]) extends (Double => Point) {
 
+
   override def apply(t: Double): Point = {
     var acc = new Point(0, 0)
     for ((p, i) <- points.view.zipWithIndex) {
@@ -20,4 +21,13 @@ class Bezier(points: List[Point]) extends (Double => Point) {
 
   private def fac(k: Int): Int = 1 to k product
 
+}
+
+object Bezier {
+  def formatPoints(points: List[Point]): List[Point] = {
+    points.head ::
+      new Point(points.head.x, points(1).y) ::
+      new Point(points(3).x, points(2).y) ::
+      points(3) :: Nil
+  }
 }
