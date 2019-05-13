@@ -1,16 +1,16 @@
 package io.github.simonvar.cglabs
 
-import io.github.simonvar.cglabs.core3d.Grid
+import io.github.simonvar.cglabs.core3d.Context
 import io.github.simonvar.cglabs.core3d.base.{Graphical, Rotatable, Scalable}
 
-class Playground(private val grid: Grid) extends Rotatable[Unit] with Scalable[Unit]{
+class GraphicalScene(private val grid: Context) extends Rotatable[Unit] with Scalable[Unit]{
 
   private var graphicals = List[Graphical]()
 
   def addGraphical(l: Graphical): Unit = graphicals = l :: graphicals
 
   def draw(): Unit = {
-    grid.context.clearRect(0, 0, grid.context.canvas.getWidth, grid.context.canvas.getHeight)
+    grid.graphics.clearRect(0, 0, grid.graphics.canvas.getWidth, grid.graphics.canvas.getHeight)
     graphicals.foreach(l => l.draw(grid))
   }
 

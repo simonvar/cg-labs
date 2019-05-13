@@ -1,7 +1,6 @@
 package io.github.simonvar.cglabs
 
-import io.github.simonvar.cglabs.Theme1.{HEIGHT, WIDTH}
-import io.github.simonvar.cglabs.core.{Grid, Point, Polygon}
+import io.github.simonvar.cglabs.core.{Grid, Point}
 import scalafx.application.JFXApp
 import scalafx.scene.Scene
 import scalafx.scene.canvas.{Canvas, GraphicsContext}

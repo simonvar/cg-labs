@@ -1,6 +1,6 @@
 package io.github.simonvar.cglabs
 
-import io.github.simonvar.cglabs.core3d.Grid
+import io.github.simonvar.cglabs.core3d.Context
 import io.github.simonvar.cglabs.core3d.figures.{Line, Plane, Point}
 import scalafx.Includes._
 import scalafx.application.JFXApp
@@ -29,7 +29,7 @@ object Window extends JFXApp {
   private final val HEIGHT = 600
   private final val DEPTH = 800
 
-  var playground: Playground = _
+  var playground: GraphicalScene = _
 
   stage = new JFXApp.PrimaryStage() {
 
@@ -64,38 +64,51 @@ object Window extends JFXApp {
         left = panelsPane
         bottom = dragModeCheckbox
         center = new Canvas {
-          val grid = new Grid(WIDTH, HEIGHT, DEPTH, graphicsContext2D, Color.Black)
+          val grid = new Context(WIDTH, HEIGHT, DEPTH, graphicsContext2D, Color.Black)
 
           height = grid.height
           width = grid.width
 
-          playground = new Playground(grid)
+          playground = new GraphicalScene(grid)
 
-          playground.addGraphical(new Line(
-            new Point(-WIDTH / 2, 0, 0),
-            new Point(WIDTH / 2, 0, 0),
-            Color.Red
-          ))
+          playground.addGraphical(
+            new Line(
+              tag = "x",
+              a = new Point("x_1", -WIDTH / 2, 0, 0),
+              b = new Point("x_2", WIDTH / 2, 0, 0),
+              color = Color.Red
+            )
+          )
 
-          playground.addGraphical(new Line(
-            new Point(0, HEIGHT / 2, 0),
-            new Point(0, -HEIGHT / 2, 0),
-            Color.Green
-          ))
+          playground.addGraphical(
+            new Line(
+              tag = "y",
+              a = new Point("y_1", 0, HEIGHT / 2, 0),
+              b = new Point("y_2", 0, -HEIGHT / 2, 0),
+              color = Color.Green
+            )
+          )
 
-          playground.addGraphical(new Line(
-            new Point(0, 0, DEPTH / 2),
-            new Point(0, 0, -DEPTH / 2),
-            Color.Blue
-          ))
 
-          playground.addGraphical(new Plane(
-            new Point(0, 0, 60),
-            new Point(0, 200, 60),
-            new Point(200, 200,60),
-            new Point(200, 0, 60),
-            Color.OrangeRed
-          ))
+          playground.addGraphical(
+            new Line(
+              tag = "z",
+              a = new Point("z_1", 0, 0, DEPTH / 2),
+              b = new Point("z_2", 0, 0, -DEPTH / 2),
+              color = Color.Blue
+            )
+          )
+
+          playground.addGraphical(
+            new Plane(
+              tag = "plane",
+              new Point("plane_1", 0, 0, 60),
+              new Point("plane_2", 0, 200, 60),
+              new Point("plane_3", 200, 200, 60),
+              new Point("plane_4", 200, 0, 60),
+              Color.Aquamarine
+            )
+          )
 
           playground.draw()
 
