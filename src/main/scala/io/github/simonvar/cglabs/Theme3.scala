@@ -15,7 +15,7 @@ import scalafx.scene.paint.Color.White
 import scalafx.scene.{Group, Node, Scene}
 
 
-object Window extends JFXApp {
+object Theme3 extends JFXApp {
 
   private val dragModeActiveProperty = new BooleanProperty(this, "dragModeActive", false)
   private val borderStyle = "" +

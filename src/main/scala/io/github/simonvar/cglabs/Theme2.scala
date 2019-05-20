@@ -13,7 +13,7 @@ object Theme2 extends JFXApp {
   private final val HEIGHT = 600
 
   stage = new JFXApp.PrimaryStage {
-    title.value = "CG LAB 1"
+    title.value = "CG LAB 2"
 
     width = WIDTH
     maxWidth = WIDTH
