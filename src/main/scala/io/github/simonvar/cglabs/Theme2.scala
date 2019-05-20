@@ -30,7 +30,7 @@ object Theme2 extends JFXApp {
 
         private val grid = new Grid(HEIGHT, WIDTH, graphicsContext2D)
 
-        drawAxes(graphicsContext2D)
+//        drawAxes(graphicsContext2D)
 
         private val points1 =
           new Point(0, 0) ::
@@ -55,17 +55,22 @@ object Theme2 extends JFXApp {
           new Point(230, -100) ::
           new Point(307, 70) :: Nil)
 
+//        private val points5 = Bezier.formatPoints(new Point(0, 0) ::
+//          new Point(0, -170) ::
+//          new Point(-107, -100) ::
+//          new Point(-307, 70) :: Nil)
 
         drawBezier(grid, points1)
         drawBezier(grid, points2)
         drawBezier(grid, points3)
         drawBezier(grid, points4)
+//        drawBezier(grid, points5)
 
       }
     }
 
     private def drawBezier(grid: Grid, points: List[Point]): Unit = {
-//      drawLines(grid, points)
+      drawLines(grid, points, Color.Green)
 
       val bezier = new Bezier(points)
 
@@ -86,11 +91,13 @@ object Theme2 extends JFXApp {
       }
     }
 
-    private def drawLines(grid: Grid, points: List[Point]): Unit = {
+    private def drawLines(grid: Grid, points: List[Point], color: Color = Color.Black): Unit = {
+      grid.context.setStroke(color)
       points.tail.scanLeft(points.head)((last: Point, p: Point) => {
         grid.drawLine(last, p)
         p
       })
+      grid.context.setStroke(Color.Black)
     }
 
     private def drawAxes(context: GraphicsContext): Unit = {
